@@ -1,5 +1,6 @@
 import { Component }       from '@angular/core';
 import { PlayerService }     from './player.service';
+import { DrawComponent } from './draw.component';
 import { PlayersComponent } from './players.component';
 import { PlayerDetailComponent } from './player-detail.component';
 import { DashboardComponent } from './dashboard.component';
@@ -12,6 +13,7 @@ import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/route
     <nav>
       <a [routerLink]="['Dashboard']">Dashboard</a>
       <a [routerLink]="['Players']">Players</a>
+      <a [routerLink]="['Draw']">Draw</a>
     </nav>
     <router-outlet></router-outlet>
   `,
@@ -39,6 +41,11 @@ import { RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS } from '@angular/route
     path: '/detail/:id',
     name: 'PlayerDetail',
     component: PlayerDetailComponent
+  },
+  {
+    path: '/draw/',
+    name: 'Draw',
+    component: DrawComponent
   }
 ])
 
