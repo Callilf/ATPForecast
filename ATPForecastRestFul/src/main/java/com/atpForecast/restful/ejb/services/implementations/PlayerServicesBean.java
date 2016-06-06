@@ -13,6 +13,7 @@ import javax.ejb.TransactionManagement;
 import javax.ejb.TransactionManagementType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import com.atpForecast.restful.ejb.entities.PlayerBean;
 import com.atpForecast.restful.ejb.services.interfaces.PlayerServicesInterface;
@@ -44,8 +45,8 @@ public class PlayerServicesBean implements PlayerServicesInterface {
 	 * @see com.atpForecast.restful.ejb.services.interfaces.PlayerServicesInterface#getAllPlayers()
 	 */
 	public List<Player> getAllPlayers() {
-		@SuppressWarnings("unchecked")
-		List<PlayerBean> resultList = this.em.createNamedQuery("findAllPlayers").getResultList();
+		Query namedQuery = this.em.createNamedQuery("findAllPlayers");
+		List<PlayerBean> resultList = namedQuery.getResultList();
 		List<Player> players = new ArrayList<>();
 		for (PlayerBean pb : resultList) {
 			players.add(new Player(pb.getId(), pb.getLastname()));

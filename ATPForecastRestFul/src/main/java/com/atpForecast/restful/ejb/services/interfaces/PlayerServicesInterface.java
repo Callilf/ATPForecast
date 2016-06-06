@@ -5,14 +5,14 @@ package com.atpForecast.restful.ejb.services.interfaces;
 
 import java.util.List;
 
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 import com.atpForecast.restful.objects.Player;
 
 /**
  * Services related to the Players.
  */
-@Remote
+@Local
 public interface PlayerServicesInterface {
 
 	/**

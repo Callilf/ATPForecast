@@ -57,6 +57,7 @@ public class PlayerService {
 			e.printStackTrace();
 		}
 
+		//TODO remove this when deploying on a real server
 		response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "http://localhost:3000");
 		return Response.status(200).entity(jsonResult).build();
 	}

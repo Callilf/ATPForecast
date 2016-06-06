@@ -19,6 +19,20 @@
 
   <dependencies>
 
+	<!-- Resteasy start -->
+	<dependency>
+	    <groupId>org.jboss.resteasy</groupId>
+	    <artifactId>resteasy-jaxrs</artifactId>
+	    <version>2.3.10.Final</version>
+	</dependency>
+
+	<dependency>
+	    <groupId>org.jboss.resteasy</groupId>
+	    <artifactId>resteasy-jackson-provider</artifactId>
+	    <version>2.3.10.Final</version>
+	</dependency>
+	<!-- Resteasy end -->
+	
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
@@ -39,6 +53,13 @@
 	    <version>6.0</version>
 	    <scope>provided</scope>
 	</dependency>
+	
+	<!-- http://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>5.1.38</version>
+	</dependency>	
 
     <dependency>
       <groupId>junit</groupId>
@@ -46,19 +67,69 @@
       <version>4.12</version>
       <scope>test</scope>
     </dependency>
-    
+
+	<!-- Hibernate start -->
+	  
     <dependency>
-        <groupId>org.jboss.resteasy</groupId>
-        <artifactId>resteasy-jaxrs</artifactId>
-        <version>3.0.4.Final</version>
+        <groupId>antlr</groupId>
+        <artifactId>antlr</artifactId>
+        <version>2.7.7</version>
+    </dependency>       
+    <dependency>
+        <groupId>dom4j</groupId>
+        <artifactId>dom4j</artifactId>
+        <version>1.6.1</version>
     </dependency>
-    
-    <!-- http://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jackson-provider -->
-	<dependency>
-	    <groupId>org.jboss.resteasy</groupId>
-	    <artifactId>resteasy-jackson-provider</artifactId>
-	    <version>3.0.17.Final</version>
-	</dependency>
+    <dependency>
+        <groupId>org.hibernate.common</groupId>
+        <artifactId>hibernate-commons-annotations</artifactId>
+        <version>4.0.5.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>4.2.16.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-ehcache</artifactId>
+        <version>4.2.16.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>4.2.16.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>4.3.2.Final</version>
+    </dependency>
+    <dependency>
+        <groupId>org.jboss.logging</groupId>
+        <artifactId>jboss-logging</artifactId>
+        <version>3.1.0.GA</version>
+    </dependency>
+    <dependency>
+        <groupId>org.javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>3.15.0-GA</version>
+    </dependency>
+	
+	<!-- Hibernate end -->
     
   </dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.2</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

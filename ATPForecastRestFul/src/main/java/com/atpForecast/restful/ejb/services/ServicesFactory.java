@@ -26,7 +26,7 @@ public final class ServicesFactory {
 	 * @throws NamingException if the lookup failed
 	 */
 	public static PlayerServicesInterface getPlayerServices() throws NamingException {
-		PlayerServicesInterface psi = (PlayerServicesBean) new InitialContext().lookup("PlayerServicesBean/remote");
+		PlayerServicesInterface psi = (PlayerServicesInterface) new InitialContext().lookup("java:global/ATPForecastRestful-1.0-SNAPSHOT/PlayerServicesBean!com.atpForecast.restful.ejb.services.interfaces.PlayerServicesInterface");
 		return psi;
 	}
 	
