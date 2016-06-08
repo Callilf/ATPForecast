@@ -4,14 +4,17 @@
 package com.atpForecast.restful;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.NamingException;
+import javax.net.ssl.SSLEngineResult.Status;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -38,16 +41,27 @@ public class PlayerService {
 	@GET
 	@Path("/players")
 	public Response getPlayers() {
+		//TODO remove this when deploying on a real server
+		response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "http://localhost:3000");
 
-		DatabaseSimulator instance = DatabaseSimulator.getInstance();
-		Player[] players = instance.getPlayers();
+		
+//		DatabaseSimulator instance = DatabaseSimulator.getInstance();
+//		Player[] players = instance.getPlayers();
+		List<Player> allPlayers = null;
+		try {
+			PlayerServicesInterface playerServices = ServicesFactory.getPlayerServices();
+			allPlayers = playerServices.getAllPlayers();
+		} catch (NamingException e1) {
+			LOGGER.error("Failed to lookup the EJB3 session bean PlayerServicesBean");
+			allPlayers = new ArrayList<>();
+		}
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		String jsonResult = null;
 		try {
 			//Convert object to JSON string and pretty print
-			jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(players);
+			jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(allPlayers);
 
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
@@ -57,52 +71,54 @@ public class PlayerService {
 			e.printStackTrace();
 		}
 
-		//TODO remove this when deploying on a real server
-		response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "http://localhost:3000");
 		return Response.status(200).entity(jsonResult).build();
 	}
 	
 	@GET
 	@Path("/player/{id}")
 	public Response getPlayer(@PathParam("id") int id) {
+		response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "http://localhost:3000");
+
+//		DatabaseSimulator instance = DatabaseSimulator.getInstance();
+//		Player[] players = instance.getPlayers();
+//		
+//		for(Player p : players) {
+//			if (p.getId() == id){
+//				desiredPlayer = p;
+//				break;
+//			}
+//		}
 		
-		//TEST
-		//TODO remove
+		Player desiredPlayer = null;
 		try {
 			PlayerServicesInterface playerServices = ServicesFactory.getPlayerServices();
-			List<Player> allPlayers = playerServices.getAllPlayers();
-			allPlayers = allPlayers;
+			desiredPlayer = playerServices.getPlayer(id);
 		} catch (NamingException e1) {
 			LOGGER.error("Failed to lookup the EJB3 session bean PlayerServicesBean");
 		}
-
-		DatabaseSimulator instance = DatabaseSimulator.getInstance();
-		Player[] players = instance.getPlayers();
-		Player desiredPlayer = null;
-		for(Player p : players) {
-			if (p.getId() == id){
-				desiredPlayer = p;
-				break;
+		
+		
+		if (desiredPlayer != null) {
+			ObjectMapper mapper = new ObjectMapper();
+			
+			String jsonResult = null;
+			try {
+				//Convert object to JSON string and pretty print
+				jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(desiredPlayer);
+				
+			} catch (JsonGenerationException e) {
+				e.printStackTrace();
+			} catch (JsonMappingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		}
-		
-		ObjectMapper mapper = new ObjectMapper();
-		
-		String jsonResult = null;
-		try {
-			//Convert object to JSON string and pretty print
-			jsonResult = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(desiredPlayer);
-
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			return Response.status(200).entity(jsonResult).build();
+		} else {
+			//Return not found
+			return Response.status(404).build();
 		}
 
-		response.getOutputHeaders().putSingle("Access-Control-Allow-Origin", "http://localhost:3000");
-		return Response.status(200).entity(jsonResult).build();
 	}
 
 }
